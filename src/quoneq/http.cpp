@@ -45,7 +45,10 @@ size_t quoneq_http_client::write_file_callback(
     std::ofstream* file
 ) {
     size_t total_size = size * nmemb;
-    file->write((char*)contents, total_size);
+    file->write(
+        (char*)contents,
+        static_cast<std::streamsize>(total_size)
+    );
 
     return total_size;
 }

@@ -45,7 +45,10 @@ size_t quoneq_ftp_client::write_file_callback(
     std::ofstream* stream
 ) {
     size_t total = size * nmemb;
-    stream->write(static_cast<char*>(ptr), total);
+    stream->write(
+        static_cast<char*>(ptr),
+        static_cast<std::streamsize>(total)
+    );
 
     return total;
 }
@@ -57,8 +60,12 @@ size_t quoneq_ftp_client::read_file_callback(
     if(!stream->good())
         return 0;
 
-    stream->read(static_cast<char*>(ptr), size * nmemb);
-    return stream->gcount();
+    stream->read(
+        static_cast<char*>(ptr),
+        static_cast<std::streamsize>(size * nmemb)
+    );
+
+    return static_cast<size_t>(stream->gcount());
 }
 
 std::string quoneq_ftp_client::extract_ftp_path(const std::string &ftp_url) {
