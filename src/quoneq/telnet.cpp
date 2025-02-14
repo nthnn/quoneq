@@ -59,6 +59,7 @@ std::unique_ptr<quoneq_telnet_response> quoneq_telnet_client::command(
         quoneq_telnet_client::write_callback
     );
 
+    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
     curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout);
@@ -185,6 +186,7 @@ std::unique_ptr<quoneq_telnet_response> quoneq_telnet_client::exec_with_options(
         quoneq_telnet_client::write_callback
     );
 
+    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
     curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout);

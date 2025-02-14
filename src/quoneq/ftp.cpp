@@ -222,6 +222,7 @@ std::unique_ptr<quoneq_ftp_response> quoneq_ftp_client::upload(
     std::streampos fileSize = file.tellg();
     file.seekg(0, std::ios::beg);
 
+    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_UPLOAD, 1L);
     curl_easy_setopt(curl, CURLOPT_URL, ftp_url.c_str());
     curl_easy_setopt(curl, CURLOPT_READDATA, &file);
@@ -279,6 +280,7 @@ std::unique_ptr<quoneq_ftp_response> quoneq_ftp_client::download_file(
         return response;
     }
 
+    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_URL, ftp_url.c_str());
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &outfile);
     curl_easy_setopt(
@@ -323,6 +325,7 @@ std::unique_ptr<quoneq_ftp_response> quoneq_ftp_client::read(
 
     std::string data;
     curl_easy_setopt(curl, CURLOPT_URL, ftp_url.c_str());
+    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &data);
     curl_easy_setopt(
         curl,
@@ -362,6 +365,7 @@ std::unique_ptr<quoneq_ftp_response> quoneq_ftp_client::remove(
     }
 
     curl_easy_setopt(curl, CURLOPT_URL, ftp_url.c_str());
+    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_NOBODY, 1L);
 
     std::string path = quoneq_ftp_client::extract_ftp_path(ftp_url);
@@ -407,6 +411,7 @@ std::unique_ptr<quoneq_ftp_response> quoneq_ftp_client::list(
 
     std::string data;
     curl_easy_setopt(curl, CURLOPT_URL, ftp_url.c_str());
+    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &data);
     curl_easy_setopt(curl, CURLOPT_DIRLISTONLY, 1L);
     curl_easy_setopt(
@@ -505,6 +510,7 @@ bool quoneq_ftp_client::exists(
         return false;
 
     curl_easy_setopt(curl, CURLOPT_URL, ftp_url.c_str());
+    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_NOBODY, 1L);
 
     if(!username.empty())
@@ -597,6 +603,7 @@ std::unique_ptr<quoneq_ftp_response> quoneq_ftp_client::file_info(
 
     std::string data;
     curl_easy_setopt(curl, CURLOPT_URL, ftp_url.c_str());
+    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &data);
     curl_easy_setopt(
         curl,
@@ -637,6 +644,7 @@ std::unique_ptr<quoneq_ftp_response> quoneq_ftp_client::folder_info(
 
     std::string data;
     curl_easy_setopt(curl, CURLOPT_URL, ftp_url.c_str());
+    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &data);
     curl_easy_setopt(
         curl,

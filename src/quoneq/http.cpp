@@ -142,6 +142,7 @@ std::unique_ptr<quoneq_http_response> quoneq_http_client::get(
     std::string response_string;
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, quoneq_http_client::write_callback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, quoneq_http_client::header_callback);
@@ -204,6 +205,7 @@ std::unique_ptr<quoneq_http_response> quoneq_http_client::post(
     std::string response_string;
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, quoneq_http_client::write_callback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
@@ -284,6 +286,7 @@ std::unique_ptr<quoneq_http_response> quoneq_http_client::ping(
     std::string response_string;
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_NOBODY, 1L);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, quoneq_http_client::write_callback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
@@ -352,6 +355,7 @@ std::unique_ptr<quoneq_http_response> quoneq_http_client::download_file(
     }
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, quoneq_http_client::write_file_callback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &output_file);
     curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, quoneq_http_client::header_callback);
