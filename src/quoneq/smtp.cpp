@@ -119,7 +119,7 @@ bool quoneq_smtp_client::send_email(
     upload_context upload_ctx{0, ""};
 
     curl_easy_setopt(curl, CURLOPT_URL, smtp_server.c_str());
-    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
+    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
     curl_easy_setopt(curl, CURLOPT_USERNAME, email.c_str());
     curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
     curl_easy_setopt(curl, CURLOPT_MAIL_FROM, email.c_str());

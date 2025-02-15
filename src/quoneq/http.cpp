@@ -142,12 +142,15 @@ std::unique_ptr<quoneq_http_response> quoneq_http_client::get(
     std::string response_string;
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, quoneq_http_client::write_callback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, quoneq_http_client::header_callback);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, response.get());
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+
+    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
+    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
+    #endif
 
     struct curl_slist* curl_headers = quoneq_http_client::prepare_headers(headers);
     if(curl_headers)
@@ -205,13 +208,16 @@ std::unique_ptr<quoneq_http_response> quoneq_http_client::post(
     std::string response_string;
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_POST, 1L);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, quoneq_http_client::write_callback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, quoneq_http_client::header_callback);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, response.get());
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+
+    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
+    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
+    #endif
 
     curl_mime* mime = curl_mime_init(curl);
     for(const auto& field : form) {
@@ -286,7 +292,6 @@ std::unique_ptr<quoneq_http_response> quoneq_http_client::ping(
     std::string response_string;
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_NOBODY, 1L);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, quoneq_http_client::write_callback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
@@ -296,6 +301,10 @@ std::unique_ptr<quoneq_http_response> quoneq_http_client::ping(
     
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5L);
     curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 5L);
+
+    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
+    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
+    #endif
 
     if(!proxy.empty())
         curl_easy_setopt(curl, CURLOPT_PROXY, proxy.c_str());
@@ -355,12 +364,15 @@ std::unique_ptr<quoneq_http_response> quoneq_http_client::download_file(
     }
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_SSL_OPTIONS, CURLSSLOPT_NATIVE_CA);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, quoneq_http_client::write_file_callback);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &output_file);
     curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, quoneq_http_client::header_callback);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, response.get());
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+
+    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
+    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
+    #endif
 
     struct curl_slist* header_list = quoneq_http_client::prepare_headers(headers);
     if(header_list)
