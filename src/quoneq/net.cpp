@@ -40,15 +40,15 @@ void quoneq_net::set_ca_cert(std::string path) {
 }
 
 std::string quoneq_net::get_ca_cert() {
-    char* cacert_path = nullptr;
+    char* cacert = nullptr;
     CURL *curl = curl_easy_init();
 
     if(!curl)
         return quoneq_net::cacert_path;
 
-    curl_easy_getinfo(curl, CURLINFO_CAINFO, &cacert_path);
-    if((cacert_path != NULL) && (cacert_path[0] == '\0'))
-        return cacert_path;
+    curl_easy_getinfo(curl, CURLINFO_CAINFO, &cacert);
+    if((cacert != NULL) && (cacert[0] == '\0'))
+        return std::string(cacert);
 
     return quoneq_net::cacert_path; 
 }
