@@ -33,6 +33,8 @@
 #ifndef QUONEQ_NET_HPP
 #define QUONEQ_NET_HPP
 
+#include <string>
+
 /**
  * @brief Network utility class.
  *
@@ -41,6 +43,9 @@
  * functions, and quoneq_net::cleanup() once you are finished.
  */
 class quoneq_net {
+private:
+    static std::string cacert_path;
+
 public:
     /**
      * @brief Initializes network resources.
@@ -57,6 +62,27 @@ public:
      * It releases any resources allocated during network initialization.
      */
     static void cleanup();
+
+    /**
+     * @brief Sets the CA certificate file path.
+     *
+     * This function allows specifying a custom CA certificate file used for 
+     * secure SSL/TLS connections. This should be set before performing 
+     * any network operations that require SSL verification.
+     *
+     * @param path The file path to the CA certificate.
+     */
+    static void set_ca_cert(std::string path);
+
+    /**
+     * @brief Retrieves the CA certificate file path.
+     *
+     * This function returns the CA certificate file path previously set by 
+     * `set_ca_cert()`. If no path has been set, it may return an empty string.
+     *
+     * @return The CA certificate file path.
+     */
+    static std::string get_ca_cert();
 };
 
 #endif
