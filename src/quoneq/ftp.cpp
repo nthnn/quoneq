@@ -22,6 +22,7 @@
  */
 
 #include <quoneq/ftp.hpp>
+#include <quoneq/net.hpp>
 
 #include <curl/curl.h>
 #include <fstream>
@@ -235,10 +236,11 @@ std::unique_ptr<quoneq_ftp_response> quoneq_ftp_client::upload(
         CURLOPT_INFILESIZE_LARGE,
         static_cast<curl_off_t>(fileSize)
     );
-
-    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
-    #endif
+    curl_easy_setopt(
+        curl,
+        CURLOPT_CAINFO,
+        quoneq_net::get_ca_cert().c_str()
+    );
 
     if(!username.empty())
         curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());
@@ -290,10 +292,11 @@ std::unique_ptr<quoneq_ftp_response> quoneq_ftp_client::download_file(
         CURLOPT_WRITEFUNCTION,
         quoneq_ftp_client::write_file_callback
     );
-
-    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
-    #endif
+    curl_easy_setopt(
+        curl,
+        CURLOPT_CAINFO,
+        quoneq_net::get_ca_cert().c_str()
+    );
 
     if(!username.empty())
         curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());
@@ -337,10 +340,11 @@ std::unique_ptr<quoneq_ftp_response> quoneq_ftp_client::read(
         CURLOPT_WRITEFUNCTION,
         quoneq_ftp_client::write_callback
     );
-
-    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
-    #endif
+    curl_easy_setopt(
+        curl,
+        CURLOPT_CAINFO,
+        quoneq_net::get_ca_cert().c_str()
+    );
 
     if(!username.empty())
         curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());
@@ -375,10 +379,11 @@ std::unique_ptr<quoneq_ftp_response> quoneq_ftp_client::remove(
 
     curl_easy_setopt(curl, CURLOPT_URL, ftp_url.c_str());
     curl_easy_setopt(curl, CURLOPT_NOBODY, 1L);
-
-    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
-    #endif
+    curl_easy_setopt(
+        curl,
+        CURLOPT_CAINFO,
+        quoneq_net::get_ca_cert().c_str()
+    );
 
     std::string path = quoneq_ftp_client::extract_ftp_path(ftp_url);
     std::string deleCmd = "DELE " + path;
@@ -430,10 +435,11 @@ std::unique_ptr<quoneq_ftp_response> quoneq_ftp_client::list(
         CURLOPT_WRITEFUNCTION,
         quoneq_ftp_client::write_callback
     );
-
-    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
-    #endif
+    curl_easy_setopt(
+        curl,
+        CURLOPT_CAINFO,
+        quoneq_net::get_ca_cert().c_str()
+    );
 
     if(!username.empty())
         curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());
@@ -526,10 +532,11 @@ bool quoneq_ftp_client::exists(
 
     curl_easy_setopt(curl, CURLOPT_URL, ftp_url.c_str());
     curl_easy_setopt(curl, CURLOPT_NOBODY, 1L);
-
-    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
-    #endif
+    curl_easy_setopt(
+        curl,
+        CURLOPT_CAINFO,
+        quoneq_net::get_ca_cert().c_str()
+    );
 
     if(!username.empty())
         curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());
@@ -627,10 +634,11 @@ std::unique_ptr<quoneq_ftp_response> quoneq_ftp_client::file_info(
         CURLOPT_WRITEFUNCTION,
         quoneq_ftp_client::write_callback
     );
-
-    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
-    #endif
+    curl_easy_setopt(
+        curl,
+        CURLOPT_CAINFO,
+        quoneq_net::get_ca_cert().c_str()
+    );
 
     if(!username.empty())
         curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());
@@ -671,10 +679,11 @@ std::unique_ptr<quoneq_ftp_response> quoneq_ftp_client::folder_info(
         CURLOPT_WRITEFUNCTION,
         quoneq_ftp_client::write_callback
     );
-
-    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
-    #endif
+    curl_easy_setopt(
+        curl,
+        CURLOPT_CAINFO,
+        quoneq_net::get_ca_cert().c_str()
+    );
 
     if(!username.empty())
         curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());

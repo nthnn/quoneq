@@ -22,6 +22,7 @@
  */
 
 #include <quoneq/http.hpp>
+#include <quoneq/net.hpp>
 
 #include <chrono>
 #include <fstream>
@@ -147,10 +148,11 @@ std::unique_ptr<quoneq_http_response> quoneq_http_client::get(
     curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, quoneq_http_client::header_callback);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, response.get());
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-
-    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
-    #endif
+    curl_easy_setopt(
+        curl,
+        CURLOPT_CAINFO,
+        quoneq_net::get_ca_cert().c_str()
+    );
 
     struct curl_slist* curl_headers = quoneq_http_client::prepare_headers(headers);
     if(curl_headers)
@@ -214,10 +216,11 @@ std::unique_ptr<quoneq_http_response> quoneq_http_client::post(
     curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, quoneq_http_client::header_callback);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, response.get());
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-
-    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
-    #endif
+    curl_easy_setopt(
+        curl,
+        CURLOPT_CAINFO,
+        quoneq_net::get_ca_cert().c_str()
+    );
 
     curl_mime* mime = curl_mime_init(curl);
     for(const auto& field : form) {
@@ -301,10 +304,11 @@ std::unique_ptr<quoneq_http_response> quoneq_http_client::ping(
     
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5L);
     curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 5L);
-
-    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
-    #endif
+    curl_easy_setopt(
+        curl,
+        CURLOPT_CAINFO,
+        quoneq_net::get_ca_cert().c_str()
+    );
 
     if(!proxy.empty())
         curl_easy_setopt(curl, CURLOPT_PROXY, proxy.c_str());
@@ -369,10 +373,11 @@ std::unique_ptr<quoneq_http_response> quoneq_http_client::download_file(
     curl_easy_setopt(curl, CURLOPT_HEADERFUNCTION, quoneq_http_client::header_callback);
     curl_easy_setopt(curl, CURLOPT_HEADERDATA, response.get());
     curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-
-    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
-    #endif
+    curl_easy_setopt(
+        curl,
+        CURLOPT_CAINFO,
+        quoneq_net::get_ca_cert().c_str()
+    );
 
     struct curl_slist* header_list = quoneq_http_client::prepare_headers(headers);
     if(header_list)

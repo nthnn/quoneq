@@ -25,10 +25,30 @@
 
 #include <curl/curl.h>
 
+std::string quoneq_net::cacert_path = "";
+
 void quoneq_net::init() {
     curl_global_init(CURL_GLOBAL_DEFAULT);
 }
 
 void quoneq_net::cleanup() {
     curl_global_cleanup();
+}
+
+void quoneq_net::set_ca_cert(std::string path) {
+    quoneq_net::cacert_path = path;
+}
+
+std::string quoneq_net::get_ca_cert() {
+    char* cacert_path = nullptr;
+    CURL *curl = curl_easy_init();
+
+    if(!curl)
+        return quoneq_net::cacert_path;
+
+    curl_easy_getinfo(curl, CURLINFO_CAINFO, &cacert_path);
+    if((cacert_path != NULL) && (cacert_path[0] == '\0'))
+        return cacert_path;
+
+    return quoneq_net::cacert_path; 
 }

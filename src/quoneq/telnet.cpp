@@ -21,6 +21,7 @@
  * THE SOFTWARE.
  */
 
+#include <quoneq/net.hpp>
 #include <quoneq/telnet.hpp>
 
 #include <curl/curl.h>
@@ -62,10 +63,11 @@ std::unique_ptr<quoneq_telnet_response> quoneq_telnet_client::command(
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
     curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout);
-
-    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
-    #endif
+    curl_easy_setopt(
+        curl,
+        CURLOPT_CAINFO,
+        quoneq_net::get_ca_cert().c_str()
+    );
 
     if(!proxy.empty())
         curl_easy_setopt(curl, CURLOPT_PROXY, proxy.c_str());
@@ -192,10 +194,11 @@ std::unique_ptr<quoneq_telnet_response> quoneq_telnet_client::exec_with_options(
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response_string);
     curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
     curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, timeout);
-
-    #if defined(_WIN32) || defined(_WIN64) || defined(WIN32) || defined(WIN64)
-    curl_easy_setopt(curl, CURLOPT_CAINFO, "C:\\Windows\\System32\\cacert.pem");
-    #endif
+    curl_easy_setopt(
+        curl,
+        CURLOPT_CAINFO,
+        quoneq_net::get_ca_cert().c_str()
+    );
 
     if(!proxy.empty())
         curl_easy_setopt(curl, CURLOPT_PROXY, proxy.c_str());
